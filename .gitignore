@@ -1,0 +1,12 @@
+.vscode
+*.elf
+*.out
+*.o
+*.mod
+*.ko
+*.cmd
+*.order
+*.d
+*.mod.c
+*.symvers
+tmp
