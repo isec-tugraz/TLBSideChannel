@@ -9,7 +9,7 @@ attacks = "./output"
 
 def eval(path: str):
     files = os.listdir(path)
-    files = [f for f in files if ".gitkeep" != f]
+    files = [f for f in files if ".git" not in f]
     datas = {}
     for fname in files:
         with open(path+"/"+fname, "r") as f:
