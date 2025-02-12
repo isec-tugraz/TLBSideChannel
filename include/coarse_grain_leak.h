@@ -15,7 +15,7 @@
 #define IDENTITY_START 0xffff888000000000
 #define IDENTITY_END   0xffffc87fffffffff
 #define VMEMMAP_START  0xffff888800000000
-#define VMEMMAP_END    (0xfffff00000000000-(1ULL<<30))
+#define VMEMMAP_END    (0xfffffe0000000000-(1ULL<<30))
 
 size_t __vmemmap_leak(size_t tries, size_t *found)
 {

@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include "cacheutils.h"
 
-#define INTEL_12TH_GEN
 /**
  * todo set this THRESHOLD depending on your system
  */
