@@ -40,6 +40,7 @@ size_t __vmemmap_leak(size_t tries, size_t *found)
             if (*found)
                 break;
         }
+        *found &= !(hit(addr+(1ULL << 30), 4) && hit_accurate(addr+(1ULL << 30), 30));
         if (*found)
             break;
     }
