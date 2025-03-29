@@ -63,7 +63,7 @@ void save_state(void)
     puts("[*] Saved state");
 }
 
-void *leak_task(void *)
+void *leak_task(__attribute__((unused))void *arg)
 {
     pin_to_core(1);
     lkm_stack_leak((size_t)&stack);
@@ -72,14 +72,14 @@ void *leak_task(void *)
     return 0;
 }
 
-void *spray_task(void *)
+void *spray_task(__attribute__((unused))void *arg)
 {
     pin_to_core(2);
     sleep(-1);
     return 0;
 }
 
-int empty_function(void *)
+int empty_function(__attribute__((unused))void *arg)
 {
     // pin_to_core(3);
     // sleep(-1);

@@ -124,6 +124,14 @@ Execute `./page-table/pt_leak.elf`, `./page-table/pmd_leak.elf`, or `./page-tabl
 _Results:_
 This experiment outputs the respective location of PT, PMD, and PUD.
 
+#### Stack leakage [10 human-seconds + 2 computer-seconds] (E9)
+
+_How to:_
+Execute `./stack/stack_leak.elf`.
+
+_Results:_
+This experiment outputs the current kernel stack location.
+
 #### Reliable location disclosure attacks [5 human-minute + 2 computer-hours] (E10)
 
 _How to:_
