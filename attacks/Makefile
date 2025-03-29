@@ -18,7 +18,7 @@ CFLAGS += -pthread
 all: $(TARGETS)
 
 %.elf: %.c
-	$(CC) -D_FILE_OFFSET_BITS=64 $< $(CFLAGS) -o $@
+	$(CC) $< $(CFLAGS) -o $@
 
 clean:
 	rm -f *.elf

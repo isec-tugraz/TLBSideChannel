@@ -18,7 +18,7 @@ CFLAGS += -pthread
 all: $(TARGETS)
 
 %.elf: %.c ../include/tlb_flush.h ../include/cacheutils.h ../include/ulkm.h ../include/utils.h ../include/coarse_grain_leak.h
-	$(CC) -D_FILE_OFFSET_BITS=64 $< $(CFLAGS) -o $@
+	$(CC) $< $(CFLAGS) -o $@
 
 clean:
 	rm -f *.elf
