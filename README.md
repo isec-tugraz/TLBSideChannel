@@ -21,7 +21,7 @@ For evaluating the exploit techniques, the artifacts might result in destructive
 
 ### How to Access
 
-We provide the source code ([github](https://github.com/isec-tugraz/TLBSideChannel/tree/artifact-evaluation)) for performing the timing side channel.
+We provide the source code ([github](https://github.com/isec-tugraz/TLBSideChannel/tree/artifact-evaluation) and [zenodo](https://zenodo.org/records/14736361)) for performing the timing side channel.
 
 ### Hardware Dependencies
 
